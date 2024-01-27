@@ -1,0 +1,21 @@
+<div id="chatbox">
+  <ul id="messages">
+    <!-- Example conversation -->
+    <ng-container *ngFor="let message of messages">
+      <li
+        class="message user-message"
+        *ngIf="message.sender === senderEnum.USER"
+      >
+        {{ message.content }}
+      </li>
+      <li class="message bot-message" *ngIf="message.sender === senderEnum.BOT">
+        {{ message.content }}
+      </li>
+    </ng-container>
+  </ul>
+
+  <div id="input-box">
+    <input type="text" id="user-input" placeholder="Type your message..." />
+    <button id="send-button">Send</button>
+  </div>
+</div>
