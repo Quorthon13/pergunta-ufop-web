@@ -1,13 +1,11 @@
 import { NgModule } from '@angular/core';
-import {
-  BrowserModule,
-  provideClientHydration,
-} from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PerguntaUfopModule } from './pergunta-ufop/pergunta-ufop.module';
 import { HttpClientModule } from '@angular/common/http';
+import { PerguntaUfopModule } from './pergunta-ufop/pergunta-ufop.module';
+import { NbThemeModule } from '@nebular/theme';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,8 +14,9 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     PerguntaUfopModule,
     HttpClientModule,
+    NbThemeModule.forRoot(),
   ],
-  providers: [provideClientHydration()],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
