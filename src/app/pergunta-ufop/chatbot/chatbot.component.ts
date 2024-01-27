@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ChatbotService } from '../service/chatbot.service';
-import Message from '../model/message';
-import SenderEnum from '../model/sender-enum';
 
 @Component({
   selector: 'app-chatbot',
@@ -9,33 +7,85 @@ import SenderEnum from '../model/sender-enum';
   styleUrls: ['./chatbot.component.css'],
 })
 export class ChatbotComponent implements OnInit {
-  messages: Message[] = [];
-  senderEnum = SenderEnum;
+  studentName = 'Estudante';
+  messages: any[] = [];
+  commands: any[] = [];
 
   constructor(private chatbotService: ChatbotService) {
-    this.start();
+    this.listCommands();
   }
 
   ngOnInit() {}
 
-  start() {
-    const newMessage = {
-      content: 'start',
-      sender: SenderEnum.USER,
-      timestamp: new Date(),
-    };
-    this.messages = [newMessage];
-    this.sendMessage(newMessage);
+  listCommands() {
+    this.chatbotService.listCommands().subscribe((commands: any) => {
+      this.commands = commands.filter(
+        (command: string) => !['Iniciar', 'NoResults'].includes(command)
+      );
+      this.start();
+    });
   }
 
-  sendMessage(message: Message) {
-    this.chatbotService.query(message.content).subscribe((res: any) => {
-      console.log(res);
-      this.messages.push({
-        content: res.response,
-        sender: SenderEnum.BOT,
-        timestamp: new Date(),
-      });
+  start() {
+    this.chatbotService.start().subscribe((res: any) => {
+      this.sendBotMessage(res.response);
+      window.setTimeout(() => {
+        this.sendBotMessage(
+          'Comandos disponíveis: ' + this.commands.join(', ') + '.'
+        );
+      }, 1000);
     });
+  }
+
+  query(message: string) {
+    window.setTimeout(() => {
+      this.chatbotService.query(message).subscribe((res: any) => {
+        let delay = 0;
+        for (const item of res.response) {
+          setTimeout(() => {
+            this.sendBotMessage(item, message);
+          }, delay);
+          delay += 2000;
+        }
+      });
+    }, 1000);
+  }
+
+  sendStudentMessage(event: any) {
+    this.messages.push({
+      text: event.message,
+      date: new Date(),
+      reply: true,
+      type: 'text',
+      user: {
+        name: this.studentName,
+      },
+    });
+    this.query(event.message);
+  }
+
+  sendBotMessage(message: string, quote?: string) {
+    const messageType = message.includes('http')
+      ? 'file'
+      : quote
+      ? 'quote'
+      : 'text';
+    this.messages.push({
+      text: ['text', 'quote'].includes(messageType) ? message : null,
+      date: new Date(),
+      reply: false,
+      type: messageType,
+      files:
+        messageType === 'file'
+          ? [{ url: message, icon: 'file-text-outline' }]
+          : null,
+      quote,
+      user: {
+        name: 'Chatbot PerguntaUFOP',
+        avatar:
+          'https://media1.tenor.com/m/JWFEQcWcJyQAAAAC/happy-catto-cats.gif',
+      },
+    });
+    console.log(this.messages);
   }
 }

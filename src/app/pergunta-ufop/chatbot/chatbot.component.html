@@ -1,21 +1,40 @@
-<div id="chatbox">
-  <ul id="messages">
-    <!-- Example conversation -->
-    <ng-container *ngFor="let message of messages">
-      <li
-        class="message user-message"
-        *ngIf="message.sender === senderEnum.USER"
+<nb-layout>
+  <nb-layout-column></nb-layout-column>
+  <nb-layout-column>
+    <nb-chat title="PerguntaUFOP" size="large">
+      <nb-chat-message
+        *ngFor="let msg of messages"
+        [type]="msg.type"
+        [message]="msg.text"
+        [reply]="msg.reply"
+        [quote]="msg.quote"
+        [sender]="msg.user.name"
+        [date]="msg.date"
+        [files]="msg.files"
+        [latitude]="msg.latitude"
+        [longitude]="msg.longitude"
+        [avatar]="msg.user.avatar"
       >
-        {{ message.content }}
-      </li>
-      <li class="message bot-message" *ngIf="message.sender === senderEnum.BOT">
-        {{ message.content }}
-      </li>
-    </ng-container>
-  </ul>
+      </nb-chat-message>
 
-  <div id="input-box">
-    <input type="text" id="user-input" placeholder="Type your message..." />
-    <button id="send-button">Send</button>
-  </div>
-</div>
+      <nb-chat-form (send)="sendStudentMessage($event)">
+        <button nbButton status="info">teste</button>
+      </nb-chat-form>
+    </nb-chat>
+  </nb-layout-column>
+  <nb-layout-column></nb-layout-column>
+  <nb-sidebar>
+    <nb-card>
+      <nb-card-header>Comandos do chatbot</nb-card-header>
+      <nb-card-body>
+        <nb-list>
+          <nb-list-item *ngFor="let command of commands">
+            <button nbButton (click)="sendStudentMessage({ message: command })">
+              {{ command }}
+            </button>
+          </nb-list-item>
+        </nb-list>
+      </nb-card-body>
+    </nb-card>
+  </nb-sidebar>
+</nb-layout>

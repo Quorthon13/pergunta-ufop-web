@@ -19,4 +19,8 @@ export class ChatbotService {
   start() {
     return this.http.get(`${this.baseUrl}/chatbot/start`);
   }
+
+  listCommands() {
+    return this.http.get(`${this.baseUrl}/chatbot/commands`);
+  }
 }
