@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { ChatbotComponent } from './pergunta-ufop/chatbot/chatbot.component'; // Import your ChatbotComponent here
+import { RouterModule, Routes } from '@angular/router';
+import { ChatbotComponent } from './pergunta-ufop/chatbot/chatbot.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/chatbot', pathMatch: 'full' }, // Redirects to /chatbot when path is empty
-  { path: 'chatbot', component: ChatbotComponent }, // Maps /chatbot path to ChatbotComponent
+  { path: '', redirectTo: '/chatbot', pathMatch: 'full' },
+  { path: 'chatbot', component: ChatbotComponent },
 ];
 
 @NgModule({
