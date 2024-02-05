@@ -5,6 +5,7 @@ import {
   NbButtonModule,
   NbCardModule,
   NbChatModule,
+  NbIconModule,
   NbLayoutModule,
   NbListModule,
   NbSidebarModule,
@@ -20,6 +21,8 @@ import {
     NbCardModule,
     NbListModule,
     NbSidebarModule,
+
+    NbIconModule,
   ],
   exports: [ChatbotComponent],
 })

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ChatbotService } from '../service/chatbot.service';
+import { NbSidebarService } from '@nebular/theme';
 
 @Component({
   selector: 'app-chatbot',
@@ -11,7 +12,10 @@ export class ChatbotComponent implements OnInit {
   messages: any[] = [];
   commands: any[] = [];
 
-  constructor(private chatbotService: ChatbotService) {
+  constructor(
+    private chatbotService: ChatbotService,
+    private nbSidebarService: NbSidebarService
+  ) {
     this.listCommands();
   }
 
@@ -87,5 +91,9 @@ export class ChatbotComponent implements OnInit {
       },
     });
     console.log(this.messages);
+  }
+
+  toggle() {
+    this.nbSidebarService.toggle();
   }
 }

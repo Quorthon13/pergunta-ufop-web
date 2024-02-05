@@ -1,5 +1,21 @@
 <nb-layout>
-  <nb-layout-column></nb-layout-column>
+  <nb-layout-header>
+    <nb-icon class="pointer" icon="menu-outline" (click)="toggle()"></nb-icon>
+  </nb-layout-header>
+  <nb-sidebar state="collapsed" style="z-index: 10">
+    <nb-card>
+      <nb-card-header>Comandos do chatbot</nb-card-header>
+      <nb-card-body>
+        <nb-list>
+          <nb-list-item *ngFor="let command of commands">
+            <button nbButton (click)="sendStudentMessage({ message: command })">
+              {{ command }}
+            </button>
+          </nb-list-item>
+        </nb-list>
+      </nb-card-body>
+    </nb-card>
+  </nb-sidebar>
   <nb-layout-column>
     <nb-chat title="PerguntaUFOP" size="large">
       <nb-chat-message
@@ -17,24 +33,12 @@
       >
       </nb-chat-message>
 
-      <nb-chat-form (send)="sendStudentMessage($event)">
+      <nb-chat-form
+        messagePlaceholder="Converse comigo!"
+        (send)="sendStudentMessage($event)"
+      >
         <button nbButton status="info">teste</button>
       </nb-chat-form>
     </nb-chat>
   </nb-layout-column>
-  <nb-layout-column></nb-layout-column>
-  <nb-sidebar>
-    <nb-card>
-      <nb-card-header>Comandos do chatbot</nb-card-header>
-      <nb-card-body>
-        <nb-list>
-          <nb-list-item *ngFor="let command of commands">
-            <button nbButton (click)="sendStudentMessage({ message: command })">
-              {{ command }}
-            </button>
-          </nb-list-item>
-        </nb-list>
-      </nb-card-body>
-    </nb-card>
-  </nb-sidebar>
 </nb-layout>
